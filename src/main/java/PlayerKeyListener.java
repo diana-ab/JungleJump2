@@ -21,7 +21,6 @@ public class PlayerKeyListener implements KeyListener {
 
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            this.player.setMovingLeft(true);
         }
     }
 
@@ -32,7 +31,6 @@ public class PlayerKeyListener implements KeyListener {
 
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            this.player.setMovingLeft(false);
         }
     }
 
