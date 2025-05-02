@@ -61,7 +61,7 @@ public class Player {
 
         } else {
             this.isJumping = false; //יש פה בעיה נראלי עם הלוגיקה איםושהו בשחקן
-            
+
         }// זה מוזר אני לא מבין את הבעיה
     }
 
