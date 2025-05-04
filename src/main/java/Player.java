@@ -1,13 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Player {
+public class Player  {
     public static final int PLAYER_SIZE = 80;
-    public static final int JUMP_FORCE = -6;
-    public static final double GRAVITY = 0.5;
-    public static final int START_X = MainFrame.WINDOW_WIDTH / 2 - PLAYER_SIZE / 2;
-    public static final int START_Y = MainFrame.WINDOW_HEIGHT - (PLAYER_SIZE * 2);
-    public static final int MOVE_SPEED = 10;
+    public static final int JUMP_FORCE = -20;
+    public static final double GRAVITY = 1;
+//    public static final int START_X = MainFrame.WINDOW_WIDTH / 2 - PLAYER_SIZE / 2;
+    public static final int START_X = 200;
+//    public static final int START_Y = MainFrame.WINDOW_HEIGHT - (PLAYER_SIZE * 2);
+    public static final int START_Y = 200;
+    public static final int MOVE_SPEED = 20;
 
     private int playerX;
     private int playerY;
@@ -39,30 +41,28 @@ public class Player {
     public void setMovingLeft(boolean moving) {
         this.movingLeft = moving;
     }
-    // למה ב- ?SET למה לא להגדיר מהירות קבועה בתוך המשתנה
     public void setMovingRight(boolean moving) {
         this.movingRight = moving;
-    } // I wanted to make a key listener that changes these variables to true
+    }
 
     public void updateAction() {
         this.ySpeed += GRAVITY;
         this.playerY += this.ySpeed;
 
-        if (movingRight) {
+        if (this.movingRight) {
             this.playerX += MOVE_SPEED; //because of this update action method I wanted to add a key listener.... somewhere that sends true
         }
-        if (movingLeft) {
+        if (this.movingLeft) {
             this.playerX -= MOVE_SPEED; //needs to receive true to work form some listener
         }
 
         if (this.ySpeed < 0) {
 
-            this.isJumping = true;// Determine if currently jumping or falling
-
+            this.isJumping = true;
         } else {
-            this.isJumping = false; //יש פה בעיה נראלי עם הלוגיקה איםושהו בשחקן
+            this.isJumping = false;
 
-        }// זה מוזר אני לא מבין את הבעיה
+        }
     }
 
     public void jump() {
@@ -76,6 +76,22 @@ public class Player {
         } else {
             currentImage = monkeyStandingImage;
         }
-        graphics.drawImage(currentImage, playerX, playerY, PLAYER_SIZE, PLAYER_SIZE, null);
+        graphics.drawImage(currentImage, this.playerX, (int)this.playerY, PLAYER_SIZE, PLAYER_SIZE, null);
+    }
+
+    public int getPlayerX() {
+        return playerX;
+    }
+
+    public int getPlayerY() {
+        return playerY;
+    }
+
+    public void setPlayerX(int playerX) {
+        this.playerX = playerX;
+    }
+
+    public int getYSpeed() {
+        return ySpeed;
     }
 }

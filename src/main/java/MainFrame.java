@@ -15,6 +15,7 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         this.setTitle("JUNGLE JUMP");
         this.setResizable(false);
+        this.setVisible(true);
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -33,14 +34,7 @@ public class MainFrame extends JFrame {
 
         menu.setStartButtonAction(e -> {
             this.cardLayout.show(this.container,ScreenNames.GAME);
+            gamePanel.requestFocusInWindow();// זה גורם לכך שהפאנל ידרוש פוקוס בתוך החלון שלו ללא זה המקשים לא יעבדו
         });
-
-        this.setVisible(true);
-
-
-
-
     }
-
-
 }
