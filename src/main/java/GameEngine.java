@@ -10,6 +10,7 @@ public class GameEngine extends Thread {
 
 
 
+
     private Player player;
     private List<Platform> platforms;
     private GamePanel gamePanel;
@@ -113,5 +114,7 @@ public class GameEngine extends Thread {
         return platforms;
     }
 
-
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
 }
