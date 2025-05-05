@@ -2,13 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Player  {
-    public static final int PLAYER_SIZE = 80;
+    public static final int PLAYER_HEIGHT = 80;
+    public static final int PLAYER_WIDTH = 80;
+
     public static final int JUMP_FORCE = -16;
     public static final int GRAVITY = 1;
-    public static final int START_X = MainFrame.WINDOW_WIDTH / 2 - PLAYER_SIZE / 2;
-
-    public static final int START_Y = MainFrame.WINDOW_HEIGHT - (PLAYER_SIZE * 2);
-
     public static final int MOVE_SPEED = 20;
 
     private int playerX;
@@ -25,11 +23,11 @@ public class Player  {
     private Image monkeyStandingImage;
     private Image monkeyJumpingImage;
 
-    public Player() {
-        this.playerX = START_X;
-        this.playerY = START_Y;
-        this.playerHeight=PLAYER_SIZE;
-        this.playerWidth=PLAYER_SIZE;
+    public Player(int startX,int startY) {
+        this.playerX = startX;
+        this.playerY = startY;
+        this.playerHeight= PLAYER_HEIGHT;
+        this.playerWidth= PLAYER_WIDTH;
 //        this.playerFeet=this.playerY+this.playerHeight;
         this.ySpeed = 0;
         this.movingLeft = false;

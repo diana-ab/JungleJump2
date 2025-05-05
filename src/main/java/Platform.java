@@ -8,19 +8,24 @@ public class Platform  {
     private int platformX;
     private int platformY;
     private Image platformImage;
+    private int platformWidth;
+    private int platformHeight;
 
 
 
     public Platform(int platformX, int platformY) {
         this.platformX = platformX;
         this.platformY = platformY;
+        this.platformHeight=PLATFORM_HEIGHT;
+        this.platformWidth=PLATFORM_WIDTH;
 
         this.platformImage = new ImageIcon(getClass().getResource("images/platform.png")).getImage();
 
     }
 
     public void draw(Graphics g) {
-        g.drawImage(platformImage, platformX, platformY, PLATFORM_WIDTH, PLATFORM_HEIGHT, null);
+        g.drawImage(platformImage, platformX, platformY, this.platformWidth,
+                this.platformHeight, null);
     }
 
 
@@ -35,11 +40,11 @@ public class Platform  {
     }
 
     public int getWidth() {
-        return PLATFORM_WIDTH;
+        return this.platformWidth;
     }
 
     public int getHeight() {
-        return PLATFORM_HEIGHT;
+        return this.platformHeight;
     }
 
     public void setPlatformX(int platformX) {
