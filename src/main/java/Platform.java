@@ -2,27 +2,25 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Platform  {
-    public static final int WIDTH = 100;
-    public static final int HEIGHT = 20;
+    public static final int PLATFORM_WIDTH = 100;
+    public static final int PLATFORM_HEIGHT = 20;
 
     private int platformX;
     private int platformY;
     private Image platformImage;
-    private int gravity;
 
 
-    public Platform(int platformX, int platformY,int gravity) {
+
+    public Platform(int platformX, int platformY) {
         this.platformX = platformX;
         this.platformY = platformY;
-        this.gravity=gravity;
+
         this.platformImage = new ImageIcon(getClass().getResource("images/platform.png")).getImage();
 
     }
-    // צריך לבצע פו מתודה שכול הזמן תגרום לפלטפורמות לזוז כלפי מטה אולי כמו שעשינו בפרויקט השני המטרה היא שזה כול הזמן זה יעשה זאת
-    // וברגע שהשחקן קופץ צריך לעדכן איך שהוא בחוץ את הSET שיצרתי פו וככה הוא יגרום לזה לזוז בהתאם
 
     public void draw(Graphics g) {
-        g.drawImage(platformImage, platformX, platformY, WIDTH, HEIGHT, null);
+        g.drawImage(platformImage, platformX, platformY, PLATFORM_WIDTH, PLATFORM_HEIGHT, null);
     }
 
 
@@ -37,16 +35,24 @@ public class Platform  {
     }
 
     public int getWidth() {
-        return WIDTH;
+        return PLATFORM_WIDTH;
     }
 
     public int getHeight() {
-        return HEIGHT;
+        return PLATFORM_HEIGHT;
     }
 
-    public void setPlatformX(int gravity) {
-        this.platformX +=gravity;
+    public void setPlatformX(int platformX) {
+        this.platformX = platformX;
     }
+
+    public void setPlatformY(int platformY) {
+        this.platformY = platformY;
+    }
+     public void moveDown(int gravity){
+        this.platformY += gravity;
+
+     }
 }
 
 

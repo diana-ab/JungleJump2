@@ -1,60 +1,101 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameEngine extends Thread {
     public static final int SLEEP = 80;
-    public static final int COLLISION_THRESHOLD=15;
+    public static final int COLLISION_THRESHOLD = 15;
+
+
+
 
 
     private Player player;
-    private ArrayList<Platform> platforms; // צריך לשנות LIST
+    private List<Platform> platforms;
     private GamePanel gamePanel;
     private boolean running;
-    private Platform platformCHEK;
+    private PlatformManager platformManager;
+    private int middlePanel;
 
 
-    public GameEngine(GamePanel gamePanel, Player player,Platform platform){
+    public GameEngine(GamePanel gamePanel, Player player) {
         this.gamePanel = gamePanel;
+        this.middlePanel =gamePanel.getHeight()/2;
         this.player = player;
         this.platforms = new ArrayList<>();
-        this.platformCHEK=platform;
         this.running = true;
+        platformManager=new PlatformManager(gamePanel);
+        this.platforms=platformManager.getPlatforms();
 
-        //need to create generate platforms method to add here...
+
 
     }
 
 
-    private boolean isPlayerLanding(Player player1 , Platform platform1) {
+    private boolean isPlayerLanding(Player player1, Platform platform1) {
         Rectangle playerLegs = new Rectangle(
                 player1.getPlayerX(),
-                (int)player1.getPlayerY()+player1.PLAYER_SIZE-COLLISION_THRESHOLD,
-                player1.PLAYER_SIZE, COLLISION_THRESHOLD);
+                 player1.getPlayerY()+player1.getPlayerHeight() - COLLISION_THRESHOLD,
+                player1.getPlayerWidth(), COLLISION_THRESHOLD);
 
         Rectangle platformHead = new Rectangle(
                 platform1.getPlatformX(),
                 platform1.getPlatformY()
-        ,platform1.getWidth(), COLLISION_THRESHOLD );
-        if (playerLegs.intersects(platformHead) &&player1.getYSpeed()>=0){
+                , platform1.getWidth(), COLLISION_THRESHOLD);
+        if (playerLegs.intersects(platformHead) && player1.getYSpeed() >= 0) {
             System.out.println("Landed!");
 
             return true;
+        } else {
+            return false;
         }
-        else {return false;}
 
     }
-    //isPlayerLanding ? לפי הקונבנציות
+
+    private void playerJumpIfNeeded(){
+        for (Platform platform: this.platforms){
+        if (isPlayerLanding(this.player,platform )) {
+            System.out.println("CHEK");
+            this.player.jump();
+        }
+    }}
+
+    private void scrollPanel(){// פה יש באג
+        int gravity =0;
+
+        if(calculateDistance()){
+             gravity = -this.player.getYSpeed();
+        }
+
+        platformManager.scrollPlatformsDown(gravity);
+
+    }
+    private void scrollPlayer(){
+        int yDistance = 0;
+        if (calculateDistance()){
+            int feetLocation=this.player.getPlayerY()+this.player.getPlayerHeight();
+            yDistance= this.middlePanel-feetLocation;
+        }
+        this.player.setPlayerY(yDistance);
+
+    }
+
+    private boolean calculateDistance(){
+        if(this.player.getPlayerY()+this.player.getPlayerHeight()
+                <this.middlePanel && this.player.getYSpeed()<0){return true;}
+        return false;
+
+    }
 
 
-    public void run(){ // this is the game loop.
-        while(this.running){
+    public void run() {
+        while (this.running) {
             this.player.updateAction();
-
-           if( isPlayerLanding(this.player,this.platformCHEK)){
-                System.out.println("CHEK");
-                this.player.jump();}
+            this.scrollPanel();
+            this.scrollPlayer();
+            this.platformManager.generatePlatformsIfNeeded();
+            playerJumpIfNeeded();
             this.gamePanel.repaint();
-
             try {
 
                 this.sleep(SLEEP);
@@ -62,24 +103,15 @@ public class GameEngine extends Thread {
                 throw new RuntimeException(e);
             }
         }
-    }//1.need to update the player inside the game loop: apply gravity and movement.
-    //2.move platforms down as player moves up. 3.check for collisions with platforms and reset jump if needed.
-    //4. remove platforms that go off-screen? ---> repaint screen... gamePanel.repaint I think.
-    //how to detect platform to player collisions? ... loop through all platforms in list > if players bottom touches
-    // platform top AND player is falling, reset ySpeed? and allow jumping again... idk how to do this
-    // drawing will be done in Game panel in the paint component -> player.draw , loop through platforms and call draw on each
-
-
-
-    private void generatePlatforms(){
-        //need to use random object to create platforms at different x-positions and y intervals
-        //gotta add them to the platforms list
-        //gotta avoid hard-coding... can generate platforms based on the screen height and adjust as the player moves up
     }
 
-    //need platform generator.
-    //need to remove platforms from the bottom.
-    //player input method to decide how to handle the player movement.
-    // ? do we need to add a stop game method : running = false (?)
-    //
+
+
+
+
+    public List<Platform> getPlatforms() {
+        return platforms;
+    }
+
+
 }
